@@ -28,7 +28,7 @@ NOTAS ✅✅✅
 
 * POST[/products/new] - Inserta una nueva nota. TOKEN. Crear una nueva nota. Título, texto y categoria única (las categorías son fijas, no se pueden editar) 
 
-* GET[/products] - Lista todos las notas. Ver listado de todas las notas del usuario (sólo ver títulos) 
+* GET[/products] - Lista todos las notas. Ver listado de todas las notas del usuario (sólo ver títulos, cada usuario solo ve sus notas) 
 
 * GET[/products] - Ver una sola nota 
 
@@ -36,10 +36,10 @@ NOTAS ✅✅✅
 
 (OPCIONALES)
 
-DELETE[/products/:idProduct] - Elimina una nota. TOKEN. 
+* DELETE[/products/:idProduct] - Elimina una nota. TOKEN. 
 
-POST[/products/:idProduct/photo] - Añade una nueva foto a la nota. TOKEN. 
+* POST[/products/:idProduct/photo] - Añade una nueva foto a la nota. TOKEN. 
 
-Marcar una nota como pública. TODAS SON POR DEFECTO PRIVADAS
+* Marcar una nota como pública. TODAS SON POR DEFECTO PRIVADAS
 
-
+* Crear, editar y borrar categorías.
