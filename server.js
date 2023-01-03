@@ -1,5 +1,9 @@
 const express = require('express');
 const newUser = require('./controllers/usuarios/newUser');
+const {
+    getUserController,
+} = require('./controllers/usuarios/getUserController');
+const { loginController } = require('./controllers/usuarios/login_user');
 const morgan = require('morgan'); //esto envía más información sobre las consultas realizadas en postman
 
 require('dotenv').config();
@@ -12,6 +16,8 @@ app.use(morgan('dev'));
 //Endpoints. COMENZAMOS AQUÍ A INCLUIR LOS ENDPOINTS DEL PROYECTO
 
 app.post('/register', newUser);
+app.get('/user/:id', getUserController);
+app.post('/login', loginController);
 
 //gestión de errores: Error y Not Found (Middleware de errory not found)
 app.use((error, req, res, _) => {

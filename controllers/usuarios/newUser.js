@@ -4,6 +4,27 @@ const { generateError } = require('../../helpers');
 const bcrypt = require('bcrypt');
 let saltRounds = 10; //para encriptar la contraseña, nivel de complejidad
 
+const getUserById = async (id) => {
+    let = connection;
+
+    try {
+        connection = await getDB();
+
+        const [result] = await connection.query(
+            `SELECT id, email FROM users WHERE id=?`,
+            [id]
+        );
+
+        if (result.length === 0) {
+            throw generateError('No existe ningun usuario con ese id', 404);
+        }
+
+        return result[0];
+    } finally {
+        if (connection) connection.release();
+    }
+};
+
 const newUser = async (req, res, next) => {
     let connection;
 
@@ -57,4 +78,4 @@ const newUser = async (req, res, next) => {
     }
 };
 
-module.exports = newUser; //exportamos newuser al server.js
+(module.exports = newUser), getUserById; //exportamos newuser al server.js
