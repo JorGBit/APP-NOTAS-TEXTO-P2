@@ -18,9 +18,9 @@ ENDPOINTS PROYECTO✅
 USUARIOS ✅✅✅
 
 
-* POST[/register] - Registra un nuevo usuario. 
+* POST[/register] - Registra un nuevo usuario. ✅
 
-* POST[/login] - Login de usuario. (devuelve un token). 
+* POST[/login] - Login de usuario. (devuelve un token). ✅
 
 
 NOTAS ✅✅✅
