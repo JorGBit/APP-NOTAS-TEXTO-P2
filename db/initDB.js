@@ -19,7 +19,7 @@ async function main() {
         await connection.query(
             `CREATE TABLE IF NOT EXISTS user (
                 id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-                username VARCHAR(100) UNIQUE NOT NULL,
+                username VARCHAR(100) UNIQUE,
                 name VARCHAR (50),
                 lastname VARCHAR(100),
                 email VARCHAR(255) UNIQUE NOT NULL,
