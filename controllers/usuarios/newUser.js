@@ -1,6 +1,7 @@
 //Registro de un nuevo usuario
 const getDB = require('../../db/getDB');
 const { generateError } = require('../../helpers');
+
 const bcrypt = require('bcrypt');
 let saltRounds = 10; //para encriptar la contraseña, nivel de complejidad
 
@@ -10,12 +11,11 @@ const newUser = async (req, res, next) => {
     try {
         connection = await getDB(); //abrimos conexión a base de datos
 
-        const { username, email, password } = req.body; //obtenemos campos del req.body
-        console.log(username);
+        const { email, password } = req.body; //obtenemos campos del req.body
         console.log(email);
         console.log(password);
         //comprobar si se han introducido los datos obligatorios
-        if (!username || !email || !password) {
+        if (!email || !password) {
             throw generateError('faltan datos obligatorios del usuario', 400);
         }
         const [user] = await connection.query(
@@ -23,8 +23,6 @@ const newUser = async (req, res, next) => {
             `SELECT id FROM user WHERE email = ?`, //interrogante para evitar inyección de código SQL, así no se puede modificar la consulta
             [email]
         );
-
-        console.log(username);
 
         if (user.length > 0) {
             //si ya hay + de 1 email igual, es que ya está registrado el usuario. es una consulta a la base de datos
@@ -36,9 +34,8 @@ const newUser = async (req, res, next) => {
         //Si todo funciona, guardamos al usuario en la base de datos
 
         await connection.query(
-            `INSERT INTO user (username, email, password) VALUES(?, ?, ?)`,
+            `INSERT INTO user (email, password) VALUES(?, ?, ?)`,
             [
-                username,
                 email,
                 hashedPassword, //introduce al usuario en la base de datos
             ]
@@ -58,3 +55,4 @@ const newUser = async (req, res, next) => {
 };
 
 module.exports = newUser; //exportamos newuser al server.js
+
