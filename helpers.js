@@ -1,9 +1,9 @@
 function generateError(message, code) {
     const error = new Error(message);
     error.httpStatus = code;
-    throw error;
+    return error;
 }
 
-module.experts = {
+module.exports = {
     generateError,
 };
