@@ -23,17 +23,23 @@ const loginUser = async (req, res, next) => {
         );
         //si no hay usuario con ese correo, lanzamos error
 
-        if (user.length < 1) {
-            throw generateError(
-                'No existe un usuario con ese email en la base de datos',
-                404
-            );
+        // if (user.length < 1) {
+        //     throw generateError(
+        //         'No existe un usuario con ese email en la base de datos',
+        //         404
+        //     );
+        // }
+
+        let validPassword;
+        if (user.length > 0) {
+            validPassword = await bcrypt.compare(password, user[0].password);
         }
 
-        const validPassword = await bcrypt.compare(password, user[0].password);
-
-        if (!validPassword) {
-            throw generateError('La contraseña es incorrecta', 401);
+        if (user.length < 1 || !validPassword) {
+            throw generateError(
+                'El email o la contraseña son incorrectos. Por favor, inténtelo de nuevo',
+                401
+            );
         }
 
         //generamos el token del usuario con el secreto. hemos instalado su dependencia
@@ -46,6 +52,7 @@ const loginUser = async (req, res, next) => {
         });
         res.send({
             status: 'Ok',
+            message: 'Sesión iniciada con éxito',
             authToken: token,
         });
     } catch (error) {
@@ -56,3 +63,4 @@ const loginUser = async (req, res, next) => {
 };
 
 module.exports = loginUser;
+
