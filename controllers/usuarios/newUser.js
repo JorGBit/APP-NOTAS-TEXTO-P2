@@ -18,15 +18,27 @@ const newUser = async (req, res, next) => {
         if (!email || !password) {
             throw generateError('faltan datos obligatorios del usuario', 400);
         }
-        const [user] = await connection.query(
+        const [userMail] = await connection.query(
             //consulta a la base de datos para comprobar q no está el email de antes
             `SELECT id FROM user WHERE email = ?`, //interrogante para evitar inyección de código SQL, así no se puede modificar la consulta
             [email]
         );
 
-        if (user.length > 0) {
+        if (userMail.length > 0) {
             //si ya hay + de 1 email igual, es que ya está registrado el usuario. es una consulta a la base de datos
-            throw generateError('Ya existe un usuario con ese email', 409);
+            throw generateError(`Usuaro ya existe en la base de datos`, 409);
+        }
+
+        const [userName] = await connection.query(
+            `SELECT id FROM user WHERE username= ?`,
+            [username]
+        );
+
+        if (userName.length > 0) {
+            throw generateError(
+                ` ${username} ya existe en la base de datos`,
+                409
+            );
         }
         const hashedPassword = await bcrypt.hash(password, saltRounds);
         console.log(hashedPassword);
@@ -55,4 +67,3 @@ const newUser = async (req, res, next) => {
 };
 
 module.exports = newUser; //exportamos newuser al server.js
-
