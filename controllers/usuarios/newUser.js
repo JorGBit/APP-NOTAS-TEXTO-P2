@@ -67,3 +67,4 @@ const newUser = async (req, res, next) => {
 };
 
 module.exports = newUser; //exportamos newuser al server.js
+ 
