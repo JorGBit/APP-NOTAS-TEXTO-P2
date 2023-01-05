@@ -28,17 +28,17 @@ NOTAS ✅✅✅
 
 * POST[/products/new] - Inserta una nueva nota. TOKEN (hace falta que usuario haya iniciado sesión, crear su Middleware). Crear una nueva nota. Título, texto y categoria única (las categorías son fijas, no se pueden editar) 
 
-* PUT[/products/:idProduct] - Edita datos de una nota del usuario. TOKEN. 
+* PUT[/products/:idnotas] - Edita datos de una nota del usuario. TOKEN. 
 
-* GET[/products] - Lista todos las notas. Ver listado de todas las notas del usuario (sólo ver títulos, cada usuario solo ve sus notas) 
+* GET[/notas] - Lista todos las notas. Ver listado de todas las notas del usuario (sólo ver títulos, cada usuario solo ve sus notas) 
 
-* GET[/products] - Ver una sola nota  
+* GET[/notas] - Ver una sola nota  
 
 (OPCIONALES)
 
-* DELETE[/products/:idProduct] - Elimina una nota. TOKEN. 
+* DELETE[/products/:idnotas] - Elimina una nota. TOKEN. 
 
-* POST[/products/:idProduct/photo] - Añade una nueva foto a la nota. TOKEN. 
+* POST[/products/:idnotas/photo] - Añade una nueva foto a la nota. TOKEN. 
 
 * Marcar una nota como pública. TODAS SON POR DEFECTO PRIVADAS
 
