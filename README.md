@@ -26,7 +26,7 @@ USUARIOS ✅✅✅
 NOTAS ✅✅✅
 
 
-* POST[/products/new] - Inserta una nueva nota. TOKEN (hace falta que usuario haya iniciado sesión, crear su Middleware). Crear una nueva nota. Título, texto y categoria única (las categorías son fijas, no se pueden editar) 
+* POST[/products/new] - Inserta una nueva nota. TOKEN (hace falta que usuario haya iniciado sesión, crear su Middleware). Crear una nueva nota. Título, texto y categoria única (las categorías son fijas, no se pueden editar) ✅
 
 * PUT[/products/:idProduct] - Edita datos de una nota del usuario. TOKEN. 
 
