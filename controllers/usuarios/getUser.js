@@ -26,9 +26,9 @@ const getUser = async (req, res, next) => {
             id: user[0].id,
             username: user[0].username,
             email: user[0].email,
-            nombre: user[0].name || '',
-            apellidos: user[0].lastname || '',
-            avatar: user[0].avatar || '',
+            name: user[0].name || '',
+            lastname: user[0].lastname || '',
+            birthday: user[0].birthday || '',
         };
         res.send({
             status: 'Ok',
@@ -42,3 +42,4 @@ const getUser = async (req, res, next) => {
 };
 
 module.exports = getUser;
+
