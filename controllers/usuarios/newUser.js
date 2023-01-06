@@ -29,24 +29,26 @@ const newUser = async (req, res, next) => {
             throw generateError(`Usuaro ya existe en la base de datos`, 409);
         }
 
-        const [userName] = await connection.query(
-            `SELECT id FROM user WHERE username= ?`,
-            [username]
-        );
+        //el username no se solicita como campo obligatorio!!! los requerimientos de a continuación pueden ser borrados
 
-        if (userName.length > 0) {
-            throw generateError(
-                ` ${username} ya existe en la base de datos`,
-                409
-            );
-        }
+        // const [userName] = await connection.query(
+        //     `SELECT id FROM user WHERE username= ?`,
+        //     [username]
+        // );
+
+        // if (userName.length > 0) {
+        //     throw generateError(
+        //         ` ${username} ya existe en la base de datos`,
+        //         409
+        //     );
+        // }
         const hashedPassword = await bcrypt.hash(password, saltRounds);
         console.log(hashedPassword);
 
         //Si todo funciona, guardamos al usuario en la base de datos
 
         await connection.query(
-            `INSERT INTO user (email, password) VALUES(?, ?, ?)`,
+            `INSERT INTO user (email, password) VALUES(?, ?)`,
             [
                 email,
                 hashedPassword, //introduce al usuario en la base de datos
@@ -67,4 +69,3 @@ const newUser = async (req, res, next) => {
 };
 
 module.exports = newUser; //exportamos newuser al server.js
- 
