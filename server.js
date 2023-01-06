@@ -1,7 +1,7 @@
 const express = require('express');
-// const newUser = require('./controllers/usuarios/newUser');
 const morgan = require('morgan'); //esto envía más información sobre las consultas realizadas en postman
-// const newNote = require('./controllers/notas/newNotes');
+const canEditNote = require('./middlewares/canEditNote');
+const fileUpload = require('express-fileupload');
 
 require('dotenv').config();
 ///Conexión a la base de datos
@@ -10,6 +10,9 @@ const app = express();
 //Deserializar body formato raw
 app.use(express.json()); //super necesario para poder leer los json del body de postman raw. "deserializar"
 app.use(morgan('dev'));
+app.use(express.static('static'));
+//leer body fomrato form-data
+app.use(fileUpload());
 //MIDDLEWARES*******************************
 const isAuth = require('./middlewares/isAuth');
 
@@ -30,18 +33,30 @@ app.get('/users/:idUser', getUser);
 
 //MODIFICAR EMAIL O USUARIO
 app.put('/users/:idUser', isAuth);
+
 //gestión de errores: Error y Not Found (Middleware de errory not found)
+
+//LISTAR LAS NOTAS
+
+const listNotes = require('./controllers/notas/listNotes');
+app.get('/notes', isAuth, listNotes);
 
 //######################################-NOTAS-
 //CONTROLADORES
-// const newNote = require('./controllers/notas/newNotes');
-
+const newNotes = require('./controllers/notas/newNotes');
+const addNotesPhoto = require('./controllers/notas/addNotesPhoto');
+const editNote = require('./controllers/notas/editNote');
 //MIDDLEWEARES
 //######################################
 
 //INSERTAR UNA NUEVA NOTA
-// app.post('/note/new', isAuth, newNote); //hace falta un middleware que se llame así
+app.post('/notas/new', isAuth, newNotes);
+//hace falta un middleware que se llame así
 
+//EDITAR DATOS DE LAS NOTAS
+app.put('/notes/:idNotes', isAuth, canEditNote, editNote);
+//Añadir nueva foto de producto
+app.post('/notes/:idNotes/photo', isAuth, canEditNote, addNotesPhoto);
 //#################
 
 app.use((error, req, res, _) => {
