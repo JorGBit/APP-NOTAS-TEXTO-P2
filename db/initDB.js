@@ -24,28 +24,31 @@ async function main() {
                 lastname VARCHAR(100),
                 email VARCHAR(255) UNIQUE NOT NULL,
                 password VARCHAR(255) NOT NULL,
-                avatar VARCHAR(255),
-                birthday DATE
-                
+                birthday DATE                
             )`
         );
 
         await connection.query(
             `CREATE TABLE IF NOT EXISTS notes (
                 id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-                idNota INT UNSIGNED NOT NULL,
-                titulo_nota VARCHAR(200) NOT NULL,
-                texto_nota VARCHAR(1000),
-                FOREIGN KEY (id) REFERENCES Usuario(id)
+                idUser INT UNSIGNED,
+                FOREIGN KEY (idUser) REFERENCES user(id) ON DELETE NO ACTION ON UPDATE CASCADE,
+                category VARCHAR(100) NOT NULL,
+                tittle VARCHAR(200) NOT NULL,
+                text VARCHAR(1000),
+                publicPrivate TINYINT DEFAULT 0,
+                createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP                
             )`
+            // FOREIGN KEY (id) REFERENCES Usuario(id)
         );
+        //PARA LAS CATEGORÍAS PODEMOS HACER UN FILTRO
 
         await connection.query(
             `CREATE TABLE IF NOT EXISTS photo_notes (
                 id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-                nombre VARCHAR(255) NOT NULL,
-                idNota INT UNSIGNED NOT NULL,
-                FOREIGN KEY (idNota) REFERENCES notas(id)
+                name VARCHAR(255) NOT NULL,
+                idNotes INT UNSIGNED,
+                FOREIGN KEY (idNotes) REFERENCES notes(id) ON DELETE NO ACTION ON UPDATE CASCADE
             )`
         );
         console.log('Tablas creadas');
