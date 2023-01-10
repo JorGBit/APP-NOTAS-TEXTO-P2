@@ -1,5 +1,5 @@
 const getDB = require('../../db/getDB');
-const { generateError } = require('../../helpers');
+const { generateError, savePhoto } = require('../../helpers');
 
 const addNotesPhoto = async (req, res, next) => {
     let connection;
@@ -9,21 +9,17 @@ const addNotesPhoto = async (req, res, next) => {
 
         const { idNotes } = req.params;
 
-        //Vamos a permitir UNA ÚNICA FOTO por producto
-
         const [photos] = await connection.query(
-            `SELECT * FROM photo_notes WHERE id =? `,
+            `SELECT * FROM photo_notes WHERE idNotes =? `,
             [idNotes]
         );
 
-        if (photos.length > 1) {
+        if (photos.length >= 1) {
             throw generateError(
                 'La nota ya tiene una fotografía asociada. No pueden incluirse más',
                 403
             );
         }
-
-        //Comprobamos que nos envia una nueva foto para añadir
 
         if (!req.files || !req.files.NotesPhoto) {
             throw generateError(
@@ -31,6 +27,18 @@ const addNotesPhoto = async (req, res, next) => {
                 400
             );
         }
+
+        const photoName = await savePhoto(req.files.NotesPhoto);
+
+        await connection.query(
+            `INSERT INTO  photo_notes (name, idNotes) VALUES (?, ?)`,
+            [photoName, idNotes]
+        );
+
+        res.send({
+            status: 'Ok',
+            message: 'Foto de producto añadida con éxito',
+        });
     } catch (error) {
         next(error);
     } finally {
