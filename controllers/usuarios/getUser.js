@@ -1,5 +1,3 @@
-//Enviar información de un usuario cuyo id se obtiene por path URLSearchParams
-
 const getDB = require('../../db/getDB');
 const { generateError } = require('../../helpers');
 
@@ -10,13 +8,9 @@ const getUser = async (req, res, next) => {
         connection = await getDB();
         const { idUser } = req.params;
 
-        //comprobamos que usuario existe en base de datos
-
         const [user] = await connection.query(`SELECT * FROM user WHERE id=?`, [
             idUser,
         ]);
-
-        //si la nonsulta no devuelve valor, usuario no existe
 
         if (user.length < 1) {
             throw generateError(`El usuario con id ${idUser} no existe`, 404);
@@ -28,7 +22,6 @@ const getUser = async (req, res, next) => {
             email: user[0].email,
             name: user[0].name || '',
             lastname: user[0].lastname || '',
-            birthday: user[0].birthday || '',
         };
         res.send({
             status: 'Ok',
@@ -42,4 +35,3 @@ const getUser = async (req, res, next) => {
 };
 
 module.exports = getUser;
-
