@@ -23,8 +23,7 @@ async function main() {
                 name VARCHAR (50),
                 lastname VARCHAR(100),
                 email VARCHAR(255) UNIQUE NOT NULL,
-                password VARCHAR(255) NOT NULL,
-                birthday DATE                
+                password VARCHAR(255) NOT NULL              
             )`
         );
 
@@ -33,15 +32,13 @@ async function main() {
                 id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
                 idUser INT UNSIGNED,
                 FOREIGN KEY (idUser) REFERENCES user(id) ON DELETE NO ACTION ON UPDATE CASCADE,
-                category VARCHAR(100) NOT NULL,
+                category ENUM('trabajo' , 'estudio' , 'finanzas' , 'viajes' , 'salud' , 'cocina' , 'jardineria' , 'ejercicio' , 'moda' , 'relaciones', 'mascotas', 'Viaje de negocios', 'proyectos', 'desarrollo personal') NOT NULL,
                 tittle VARCHAR(200) NOT NULL,
                 text VARCHAR(1000),
                 publicPrivate TINYINT DEFAULT 0,
-                createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP                
+                created TIMESTAMP DEFAULT CURRENT_TIMESTAMP                
             )`
-            // FOREIGN KEY (id) REFERENCES Usuario(id)
         );
-        //PARA LAS CATEGORÍAS PODEMOS HACER UN FILTRO
 
         await connection.query(
             `CREATE TABLE IF NOT EXISTS photo_notes (
@@ -52,22 +49,6 @@ async function main() {
             )`
         );
         console.log('Tablas creadas');
-
-        // INSERTAMOS LOS DATOS CUANDO TENGAMOS CLARO EL FUNCIONAMIENTO DE LA BASE DE DATOS
-
-        // console.log('Insertamos unos datos de prueba');
-
-        // await connection.query(
-        //     `INSERT INTO user (username, email, password)
-        //     VALUES ('userPrueba', 'prueba@gmail.com', '123456')`
-        // );
-
-        // await connection.query(
-        //     `INSERT INTO notes (username, email, password)
-        //     VALUES ('userPrueba', 'prueba@gmail.com', '123456')`
-        // );
-
-        // console.log('Datos de prueba insertados con éxito');
     } catch (error) {
         console.error(error.message);
     } finally {
