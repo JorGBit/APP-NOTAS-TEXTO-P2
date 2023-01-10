@@ -1,6 +1,5 @@
 const getDB = require('../../db/getDB');
 
-//controlador
 const listNotes = async (req, res, next) => {
     let connection;
     try {
@@ -8,22 +7,18 @@ const listNotes = async (req, res, next) => {
 
         const { search, order, direction } = req.query;
 
-        const validOrderOptions = ['tittle', 'categoria', 'createdAt'];
+        const validOrderOptions = ['tittle', 'category', 'created'];
 
         const validDirectionOptions = ['ASC', 'DESC'];
 
-        //variable que guarda el valor para ordenar los productos, por defecto
-
         const orderBy = validDirectionOptions.includes(order)
             ? order
-            : 'createdAt';
+            : 'created';
 
-        //variable para establecer la direccion en la que ordenaremos
         const orderDirection = validDirectionOptions.includes(direction)
             ? direction
             : 'ASC';
 
-        //variable qe guardará la consulta a la base de datos
         let notes;
 
         if (search) {
@@ -38,15 +33,21 @@ const listNotes = async (req, res, next) => {
             );
         }
 
-        //variable que guardará los datos de las notass
-
         const data = [];
 
-        //al array de datos le vamos a pushear una copia del producto
-        data.push({
-            ...notes[i],
-        });
+        for (let i = 0; i < notes.length; i++) {
+            const [photos] = await connection.query(
+                `SELECT id, name FROM photo_notes WHERE idNotes = ?`,
+                [notes[i].id]
+            );
 
+            //variable que guardará los datos de las notass
+
+            data.push({
+                ...notes[i],
+                photos,
+            });
+        }
         res.send({
             status: 'Ok',
             message: 'Lista de notas creada',
