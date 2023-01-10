@@ -1,5 +1,3 @@
-//El middleware comprueba si el usuario ha iniciado sesión o no
-
 const getDB = require('../db/getDB');
 const { generateError } = require('../helpers');
 const jwt = require('jsonwebtoken');
@@ -12,11 +10,11 @@ const isAuth = async (req, res, next) => {
         connection = await getDB();
 
         //Recuperar cabecera de autorización
-        const { autorization } = req.headers;
+        const { authorization } = req.headers;
 
-        console.log(autorization);
+        console.log(authorization);
 
-        if (!autorization) {
+        if (!authorization) {
             throw generateError('Falta la cabecera de autorización', 401);
         }
 
@@ -24,12 +22,12 @@ const isAuth = async (req, res, next) => {
 
         try {
             //desencriptamos el token
-            tokenInfo = jwt.verify(autorization, process.env.SECRET);
+            tokenInfo = jwt.verify(authorization, process.env.SECRET);
         } catch (error) {
             throw generateError('El token no es válido', 401);
         }
 
-        //comprobamos que el id del usuario token existe en la base ded atos,, ya que un usuario puede ser eliminado
+        //comprobamos que el id del usuario token existe en la base de datos, ya que un usuario puede ser eliminado
 
         const [user] = await connection.query(`SELECT * FROM user WHERE id=?`, [
             tokenInfo.id,
@@ -38,7 +36,6 @@ const isAuth = async (req, res, next) => {
             throw generateError('El token no es válido', 401);
         }
 
-        //guardamos una propiedad nueva
         req.userAuth = tokenInfo;
 
         next();
