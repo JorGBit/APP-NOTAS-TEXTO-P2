@@ -10,7 +10,7 @@ Para la ejecución de este proyecto deberemos hacer lo siguiente :)
 
 4-Crear la carpeta static en la raiz del proyecto con la subcarpeta static/notasImagen. Aquí el proyecto conservará las imágenes que los usuarios suban a las notas
 
-5-Ejecutar npm i para instalar todas las dependencias necesarias que indique el package
+5-Ejecutar npm i para instalar todas las dependencias necesarias que indique el package, así descargaremos los módulos de node
 
 6-El comando npm run db ejecutará la creación de las tablas. Deberás realizar las peticiones en postman para incluir nuevos datos en las bases de datos, ya que en el proyecto no incluímos datos de ejemplo. Haz la prueba importando datos de postman según los datos de las tablas de las bases de datos.
 
@@ -26,7 +26,7 @@ El proyecto realiza las siguientes funcionalidades
 
 POST[/register] - Registra un nuevo usuario.
 
-POST[/login] - Login de usuario. (devuelve un token).
+POST[/login] - Login de usuario. (devuelve un token que utilizaremos como logeo para posteriores funcionalidades. Tener en cuenta en Postman).
 
 -------DE CARA A LAS NOTAS:
 
