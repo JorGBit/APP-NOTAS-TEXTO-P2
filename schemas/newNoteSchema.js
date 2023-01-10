@@ -1,6 +1,3 @@
-//Schema que controla el tipo de dato de
-//texto, titulo y categoría
-
 const Joi = require('joi');
 const newNoteSchema = Joi.object().keys({
     tittle: Joi.string()
@@ -21,8 +18,23 @@ const newNoteSchema = Joi.object().keys({
         }),
     category: Joi.string()
         .required()
-        .min(3)
-        .max(20)
+        .valid(
+            'trabajo',
+            'estudio',
+            'finanzas',
+            'viajes',
+            'salud',
+            'cocina',
+            'jardineria',
+            'ejercicio',
+            'moda',
+            'relaciones',
+            'mascotas',
+            'Viaje de negocios',
+            'proyectos',
+            'desarrollo personal'
+        )
+
         .error((errors) => {
             if (
                 errors[0].code === 'any.required' ||
@@ -31,7 +43,7 @@ const newNoteSchema = Joi.object().keys({
                 return new Error('Incluir la categoría es obligatorio');
             } else {
                 return new Error(
-                    'La categoría debe tener un mínimo de 3 y un máximo de 20 caracteres'
+                    'La categoría no existe, introduzca una válida'
                 );
             }
         }),
