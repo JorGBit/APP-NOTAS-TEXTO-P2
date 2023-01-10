@@ -1,8 +1,8 @@
-const { notDeepEqual } = require('assert');
 const { unlink } = require('fs/promises');
 const path = require('path');
 const sharp = require('sharp');
 const uuid = require('uuid');
+require('dotenv').config();
 
 const notesDir = path.join(__dirname, 'static', 'notasImagen');
 
@@ -23,6 +23,7 @@ async function deletePhoto(photoName) {
     }
 }
 //Funcion que guarda nueva foto en el servidor y da hombre unico para la imagen
+
 async function savePhoto(imagen) {
     try {
         const sharpImage = sharp(imagen.data);
@@ -30,6 +31,7 @@ async function savePhoto(imagen) {
         const imageName = uuid.v4() + '.jpg';
 
         const photoPath = path.join(notesDir, imageName);
+
         sharpImage.toFile(photoPath);
         return imageName;
     } catch (error) {
