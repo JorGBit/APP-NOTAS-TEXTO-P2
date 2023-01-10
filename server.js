@@ -4,7 +4,7 @@ const canEditNote = require('./middlewares/canEditNote');
 const fileUpload = require('express-fileupload');
 
 require('dotenv').config();
-///Conexión a la base de datos
+
 const app = express();
 
 //Deserializar body formato raw
@@ -13,50 +13,51 @@ app.use(morgan('dev'));
 app.use(express.static('static'));
 //leer body fomrato form-data
 app.use(fileUpload());
-//MIDDLEWARES*******************************
-const isAuth = require('./middlewares/isAuth');
 
-//CONTROLADORES DE USUARIOS**************************************************
+//*******************************
+const isAuth = require('./middlewares/isAuth');
 const newUser = require('./controllers/usuarios/newUser');
 const loginUser = require('./controllers/usuarios/loginUser');
 const getUser = require('./controllers/usuarios/getUser');
 
-//Endpoints. COMENZAMOS AQUÍ A INCLUIR LOS ENDPOINTS DEL PROYECTO
 //REGISTRO DE USUARIO
 app.post('/register', newUser);
-
 //LOGIN DE USUARIO
 app.post('/login', loginUser);
-
 //DEVOLVER INFO DE UN USUARIO
 app.get('/users/:idUser', getUser);
-
 //MODIFICAR EMAIL O USUARIO
 app.put('/users/:idUser', isAuth);
-
-//gestión de errores: Error y Not Found (Middleware de errory not found)
-
-//LISTAR LAS NOTAS
-
-const listNotes = require('./controllers/notas/listNotes');
-app.get('/notes', isAuth, listNotes);
 
 //######################################-NOTAS-
 //CONTROLADORES
 const newNotes = require('./controllers/notas/newNotes');
 const addNotesPhoto = require('./controllers/notas/addNotesPhoto');
 const editNote = require('./controllers/notas/editNote');
+const listNotes = require('./controllers/notas/listNotes');
+const noteInfo = require('./controllers/notas/noteInfo');
+const deleteNotes = require('./controllers/notas/deleteNotes');
 //MIDDLEWEARES
 //######################################
 
 //INSERTAR UNA NUEVA NOTA
-app.post('/notas/new', isAuth, newNotes);
+app.post('/notes/new', isAuth, newNotes);
 //hace falta un middleware que se llame así
 
+//DEVOLVER INFORMACIÓN DE LA NOTA .. hay que hacerlo con el logeo.
+app.get('/noteInfo/:idNote', noteInfo);
+
 //EDITAR DATOS DE LAS NOTAS
-app.put('/notes/:idNotes', isAuth, canEditNote, editNote);
-//Añadir nueva foto de producto
+app.put('/notesEdit/:idNotes', isAuth, canEditNote, editNote);
+
+//Añadir nueva foto de nota
 app.post('/notes/:idNotes/photo', isAuth, canEditNote, addNotesPhoto);
+
+// //Eliminamos una nota
+app.delete('/notes/:idNotes', isAuth, canEditNote, deleteNotes);
+//Lista de notas
+app.get('/notes', isAuth, listNotes);
+
 //#################
 
 app.use((error, req, res, _) => {
@@ -76,7 +77,6 @@ app.use((req, res) => {
     });
 });
 
-//Ponemos a la escucha el servidor
 app.listen(process.env.PORT, () => {
     console.log(`Server listening at http://localhost:${process.env.PORT}`);
 });
