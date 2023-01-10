@@ -1,0 +1,313 @@
+{
+	"info": {
+		"_postman_id": "13186235-ff82-48ac-95ad-d5eb1ad4e996",
+		"name": "Proyecto-2-Bootcamp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24928901"
+	},
+	"item": [
+		{
+			"name": "USUARIOS",
+			"item": [
+				{
+					"name": "Registrar Usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \r\n\"user\": \"Cristina Aguilera\",\r\n\"username\": \"Piltra\",\r\n\"email\": \"chinchimonete@gmail.com\",\r\n\"name\": \"Pistacho\",\r\n\"lastname\": \"Chacho\",\r\n\"password\": \"12345\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/register",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"user\": \"Cristina Aguilera\",\r\n\"username\": \"Piltra\",\r\n\"email\": \"chinchimonete@gmail.com\",\r\n\"name\": \"Pistacho\",\r\n\"lastname\": \"Chacho\",\r\n\"password\": \"12345\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/login",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "NOTAS",
+			"item": [
+				{
+					"name": "Nueva Nota",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \r\n\"tittle\": \"nota10\",\r\n\"category\" :\"finanzas\",\r\n\"text\":\"holahola\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/notes/new?authorization={{token}}",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"notes",
+								"new"
+							],
+							"query": [
+								{
+									"key": "authorization",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Notas",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{server}}/notes",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"notes"
+							],
+							"query": [
+								{
+									"key": "order",
+									"value": "tittle",
+									"disabled": true
+								},
+								{
+									"key": "direction",
+									"value": "ASC",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Visualizar Nota",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/noteInfo/2",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"noteInfo",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Notas",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"text\": \"jyujhgjhg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/notesEdit/3",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"notesEdit",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Añadir Foto a la Nota",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "NotesPhoto",
+									"type": "file",
+									"src": "/C:/Users/usuario/OneDrive/Desktop/7.PNG"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{server}}/notes/2/photo",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"notes",
+								"2",
+								"photo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Nota",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/notes/6",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"notes",
+								"6"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "server",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
