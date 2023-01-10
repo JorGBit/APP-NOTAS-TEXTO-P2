@@ -6,7 +6,7 @@ Para la ejecución de este proyecto deberemos hacer lo siguiente :)
 
 2-CREATE DATABASE IF NOT EXISTS "proyectobootcamp2";
 
-3-Copiar el archivo .env y rellenar las variables de entorno con sus datos necesarios.
+3-Copiar el archivo  copia.env y renombrar como ".env". Después, rellenar las variables de entorno con sus datos necesarios. 
 
 4-Crear la carpeta static en la raiz del proyecto con la subcarpeta static/notasImagen. Aquí el proyecto conservará las imágenes que los usuarios suban a las notas
 
