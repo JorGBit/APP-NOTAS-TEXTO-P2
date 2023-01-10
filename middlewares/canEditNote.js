@@ -1,8 +1,5 @@
-//Comprobamos que el producto pertenece al usuario que tiene la sesión iniciada
-
 const getDB = require('../db/getDB');
 const { generateError } = require('../helpers');
-const { note } = require('../schemas/newNoteSchema');
 
 const canEditNote = async (req, res, next) => {
     let connection;
@@ -11,23 +8,24 @@ const canEditNote = async (req, res, next) => {
         connection = await getDB();
         const idUserAuth = req.userAuth.id;
         const { idNotes } = req.params;
-        //si la consulta no devuelve ningun valor es que el producto no pertenecfe al usuario
-        //que tiene la sesion iniciada
+
         const [notes] = await connection.query(
-            `SELECT * FROM notes WHERE id =? AND idUser = ?`,
-            [idNotes, idUserAuth]
+            `SELECT * FROM notes WHERE id =?`,
+            [idNotes]
         );
 
         if (notes.length < 1) {
-            //si la consulta no devuelve nada significa que el producto no pertenece al usuario con la sesion iniciada
+            throw generateError('La nota que quieres editar no existe', 404);
+        }
+
+        if (notes[0].idUser !== idUserAuth) {
             throw generateError(
                 'La nota que quieres editar no te pertenece',
-                401
+                403
             );
         }
-        //Si no salta el error, puedes editarlo
 
-        next(); //ejecutamos
+        next();
     } catch (error) {
         next(error);
     } finally {
